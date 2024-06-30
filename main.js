@@ -182,6 +182,36 @@ function levelUp() {
     }
 }
 
+// change direction when play with mobile
+function clickBtn() {
+    if (/Android/i.test(navigator.userAgent) || /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        document.querySelector('.move-mobile').style.display = 'flex';
+        const btns = Array.from(document.querySelectorAll('.move-mobile button'));
+        btns.forEach(btn => {
+            btn.addEventListener('touchend', function(e) {
+                let code = this.dataset.move;
+                let nextX = marioX;
+                let nextY = marioY;
+                if (code === 'ArrowLeft') nextX -= 3;
+                if (code === 'ArrowRight') nextX += 3;
+                if (code === 'ArrowUp') nextY -= 3;
+                if (code === 'ArrowDown') nextY += 3;
+                if (!checkCollision(nextX, nextY, walls)) {
+                    marioX = nextX;
+                    marioY = nextY;
+                    checkBorder();
+                    checkTreasure(nextX, nextY);
+                    checkObstacle(nextX, nextY);
+                    checkEnemy(nextX, nextY);
+                }
+            })
+        })
+    } else {
+        document.querySelector('.move-mobile').style.display = 'none';
+        return;
+    }
+}
+
 // Update local storge
 function updateStorage() {
     localStorage.setItem('level', level);
@@ -241,4 +271,5 @@ function gameLoop() {
 }
 
 let game = setInterval(gameLoop, 100);
+clickBtn();
 // mario.onload = gameLoop;

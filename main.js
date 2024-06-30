@@ -232,6 +232,9 @@ function gameLoop() {
         localStorage.removeItem('score')
         localStorage.removeItem('level')
         clearInterval(game);
+        gameRules.style.display = 'flex';
+        startPlaying.textContent = 'Replay';
+        startPlaying.previousElementSibling.textContent = `Finale Score: ${score}\nFinale Level: ${level}`;
     }
 
     // requestAnimationFrame(gameLoop);

@@ -36,6 +36,9 @@ body {
     text-align: center;
     line-height: 30px;
 }
+.pre-game p:not(:last-of-type) {
+    margin-bottom: 20px;
+}
 .pre-game p span {
     display: inline-block;
     width: 30px;

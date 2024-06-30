@@ -8,6 +8,8 @@
 body {
     overflow: hidden;
     font-family: "Roboto", sans-serif;
+    min-height: 100vh;
+    padding-bottom: 40px;
 }
 .pre-game {
     position: fixed;
@@ -97,17 +99,15 @@ canvas {
 
 .move-mobile {
     display: none;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
     margin-top: 50px;
+    text-align: center;
 }
 .move-mobile button {
     border: none;
     outline: none;
     background-color: #333;
     color: #fff;
-    display: block;
+    /* display: block; */
     width: fit-content;
     padding: 10px 20px;
     text-align: center;
@@ -116,3 +116,14 @@ canvas {
     border-radius: 4px;
     cursor: pointer;
 }
+.move-mobile .empty {
+    display: inline-block;
+    width: 50px;
+    height: 20px;
+    background-color: #fff;
+}
+.move-mobile button.up, 
+.move-mobile button.down {
+    display: block;
+    margin: 0 auto;
+} 

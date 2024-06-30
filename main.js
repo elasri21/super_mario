@@ -185,7 +185,7 @@ function levelUp() {
 // change direction when play with mobile
 function clickBtn() {
     if (/Android/i.test(navigator.userAgent) || /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-        document.querySelector('.move-mobile').style.display = 'flex';
+        document.querySelector('.move-mobile').style.display = 'block';
         const btns = Array.from(document.querySelectorAll('.move-mobile button'));
         btns.forEach(btn => {
             btn.addEventListener('touchend', function(e) {

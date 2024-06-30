@@ -3,6 +3,12 @@ const ctx = canvas.getContext('2d')
 const scoreContainer = document.querySelector('.score');
 const livesContainer = document.querySelector('.lives');
 const levelContainer = document.querySelector('.level');
+const gameRules = document.querySelector('.pre-game');
+const startPlaying = document.querySelector('.pre-game button')
+startPlaying.addEventListener('click',function() {
+    gameRules.style.display = 'none';
+});
+
 canvas.width = 600
 canvas.height = 300
 

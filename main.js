@@ -5,7 +5,7 @@ const livesContainer = document.querySelector('.lives');
 const levelContainer = document.querySelector('.level');
 const gameRules = document.querySelector('.pre-game');
 const startPlaying = document.querySelector('.pre-game button')
-startPlaying.addEventListener('click',function() {
+startPlaying.addEventListener('click', function() {
     gameRules.style.display = 'none';
 });
 
@@ -63,13 +63,15 @@ function addSquares(squares) {
 }
 
 // add obstacle
-while (obstacles.length < 5) addSquares(obstacles)
+let levelSquares;
+levelSquares = level > 1 ? level : 0;
+while (obstacles.length < (5 + levelSquares)) addSquares(obstacles)
     
 // add enemies
-while (enemies.length < 3) addSquares(enemies)
+while (enemies.length < (3 + levelSquares)) addSquares(enemies)
 
 // add walls
-while (walls.length < 30) addSquares(walls)
+while (walls.length < (20 + levelSquares * 2)) addSquares(walls)
 
 // add initial treasure
 while (treasures.length != 1) addSquares(treasures)
@@ -118,7 +120,7 @@ function checkTreasure(x, y) {
     if (checkCollision(x, y, treasures)) {
         score += 1;
         scoreContainer.textContent = localStorage.getItem('score');
-        if (score >= 10 && score % 10 === 0) {
+        if (score >= 10 && score % 10 === 0 && score % level === 0) {
             levelUp();
         }
         treasures.length = 0;
@@ -229,10 +231,11 @@ function gameLoop() {
         localStorage.removeItem('lives')
         localStorage.removeItem('score')
         localStorage.removeItem('level')
-        return;
+        clearInterval(game);
     }
 
-    requestAnimationFrame(gameLoop);
+    // requestAnimationFrame(gameLoop);
 }
 
-mario.onload = gameLoop;
+let game = setInterval(gameLoop, 100);
+// mario.onload = gameLoop;

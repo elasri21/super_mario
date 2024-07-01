@@ -53,12 +53,22 @@ let treasures = [];
 
 // walls, obstacles, enemies and treasures
 function addSquares(squares) {
-    let tX = Math.abs(Math.floor(Math.random() * (canvas.width - 1)));
-    let tY = Math.abs(Math.floor(Math.random() * (canvas.height - 1)));
-    if ((tX % 60 == 0 && tY % 30 == 0) && !checkCollision(tX, tY, walls) &&
-        !checkCollision(tX, tY, enemies) && !checkCollision(tX, tY, obstacles) &&
-        !checkCollision(tX, tY, treasures)) {
-            squares.push({x: tX, y: tY});
+    const maxAttempts = 100;
+    let attempts = 0;
+    let added = false;
+    while (attempts < maxAttempts && !added) {
+        let tX = Math.abs(Math.floor(Math.random() * (canvas.width - 1)));
+        let tY = Math.abs(Math.floor(Math.random() * (canvas.height - 1)));
+        if ((tX % 60 == 0 && tY % 30 == 0) && !checkCollision(tX, tY, walls) &&
+            !checkCollision(tX, tY, enemies) && !checkCollision(tX, tY, obstacles) &&
+            !checkCollision(tX, tY, treasures)) {
+                squares.push({x: tX, y: tY});
+                added = true;
+        }
+        attempts += 1;
+    }
+    if (!added) {
+        console.log('Failed to add a new square after maximum attempts');
     }
 }
 
@@ -108,12 +118,12 @@ function checkBorder() {
 
 // Interacting with Treasures and Obstacles
 function removeSquare(squares, x, y) {
-    let newAquares = squares.filter(square => !(x < square.x + size &&
+    let newSquares = squares.filter(square => !(x < square.x + size &&
         x + size > square.x &&
         y < square.y + size &&
         y + size > square.y
     ));
-    return newAquares;
+    return newSquares;
 }
 
 function checkTreasure(x, y) {
@@ -223,13 +233,26 @@ function updateStorage() {
 }
 
 // add click event to keyboard
+let normalSpeed = 3;
+let highSpeed = 6;
+let marioSpeed = normalSpeed;
+document.addEventListener('keydown', function(event) {
+    if (event.key === 's') {
+        marioSpeed = highSpeed;
+    }
+});
+document.addEventListener('keyup', function(event) {
+    if (event.key === 's') {
+        marioSpeed = normalSpeed;
+    }
+});
 document.addEventListener('keydown', (event) => {
     let nextX = marioX;
     let nextY = marioY;
-    if (event.key === 'ArrowLeft') nextX -= 3;
-    if (event.key === 'ArrowRight') nextX += 3;
-    if (event.key === 'ArrowUp') nextY -= 3;
-    if (event.key === 'ArrowDown') nextY += 3;
+    if (event.key === 'ArrowLeft') nextX -= marioSpeed;
+    if (event.key === 'ArrowRight') nextX += marioSpeed;
+    if (event.key === 'ArrowUp') nextY -= marioSpeed;
+    if (event.key === 'ArrowDown') nextY += marioSpeed;
 
     if (!checkCollision(nextX, nextY, walls)) {
         marioX = nextX;
@@ -257,7 +280,7 @@ function gameLoop() {
     ctx.drawImage(mario, marioX, marioY, 30, 30);
 
     // stop game when mario lives is 0
-    if (lives === 0) {
+    if (lives === 0 || level > 10) {
         localStorage.removeItem('lives')
         localStorage.removeItem('score')
         localStorage.removeItem('level')

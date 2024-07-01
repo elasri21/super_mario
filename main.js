@@ -202,10 +202,10 @@ function clickBtn() {
                 let code = this.dataset.move;
                 let nextX = marioX;
                 let nextY = marioY;
-                if (code === 'ArrowLeft') nextX -= 3;
-                if (code === 'ArrowRight') nextX += 3;
-                if (code === 'ArrowUp') nextY -= 3;
-                if (code === 'ArrowDown') nextY += 3;
+                if (code === 'ArrowLeft') nextX -= marioSpeed;
+                if (code === 'ArrowRight') nextX += marioSpeed;
+                if (code === 'ArrowUp') nextY -= marioSpeed;
+                if (code === 'ArrowDown') nextY += marioSpeed;
                 if (!checkCollision(nextX, nextY, walls)) {
                     marioX = nextX;
                     marioY = nextY;
